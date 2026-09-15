@@ -5,18 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Koszyk | Tom-Par</title>
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css?v=2">
 <script>
   (function(){
     var m = null;
-    try { m = localStorage.getItem('tompar_motyw'); } catch(e){}
+    try { m = localStorage.getItem('tompar_motyw') || localStorage.getItem('lumen_motyw'); } catch(e){}
     if (!m) m = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.dataset.theme = m;
   })();
 </script>
 </head>
 <body>
-<div class="topbar">🚚 Darmowa dostawa przy zamówieniu od 200 zł — wysyłka w 24 h</div>
 <header class="site">
   <div class="wrap head-main">
     <a class="logo" href="index.html"><i>🕯️</i><span>Tom-Par<small>znicze i lampiony</small></span></a>
@@ -53,6 +52,7 @@
     <h1 style="font-size:clamp(1.9rem,3.6vw,2.6rem)">Twój koszyk</h1>
     <div class="checkout" style="grid-template-columns:1.35fr .65fr">
       <div>
+        <div id="pasek-dostawy"></div>
         <div class="panel" id="lista-koszyk"></div>
       </div>
       <aside>
@@ -96,12 +96,29 @@
     </div>
   </div>
 </footer>
-<script src="js/shop.js"></script>
+<script src="js/shop.js?v=2"></script>
 <script>
 function rysuj(){
   const items = Cart.get();
   const box = document.querySelector('#lista-koszyk');
   const sum = document.querySelector('#podsumowanie');
+
+  const pasek = document.querySelector('#pasek-dostawy');
+  const sub0 = Cart.subtotal();
+  const brak0 = Math.max(0, DARMOWA_OD - sub0);
+  const proc = Math.min(100, Math.round(sub0 / DARMOWA_OD * 100));
+
+  pasek.innerHTML = !items.length ? '' : (brak0 > 0
+    ? `<div class="freeship">
+         <div class="fs-top"><span>🚚 Do <strong>darmowej dostawy</strong> brakuje <strong>${zl(brak0)}</strong></span>
+           <span class="muted">${zl(sub0)} / ${zl(DARMOWA_OD)}</span></div>
+         <div class="fs-bar"><i style="width:${proc}%"></i></div>
+         <a class="fs-link" href="sklep.html">Dobierz jeszcze jeden znicz →</a>
+       </div>`
+    : `<div class="freeship done">
+         <div class="fs-top"><span>✓ <strong>Dostawa gratis!</strong> Nie dopłacasz za przesyłkę.</span></div>
+         <div class="fs-bar"><i style="width:100%"></i></div>
+       </div>`);
 
   if (!items.length){
     box.innerHTML = `<div class="empty"><div style="font-size:2.4rem">🕯️</div>

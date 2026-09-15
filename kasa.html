@@ -5,18 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Zamówienie — dane, dostawa, płatność | Tom-Par</title>
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css?v=2">
 <script>
   (function(){
     var m = null;
-    try { m = localStorage.getItem('tompar_motyw'); } catch(e){}
+    try { m = localStorage.getItem('tompar_motyw') || localStorage.getItem('lumen_motyw'); } catch(e){}
     if (!m) m = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.dataset.theme = m;
   })();
 </script>
 </head>
 <body>
-<div class="topbar">🚚 Darmowa dostawa przy zamówieniu od 200 zł — wysyłka w 24 h</div>
 <header class="site">
   <div class="wrap head-main">
     <a class="logo" href="index.html"><i>🕯️</i><span>Tom-Par<small>znicze i lampiony</small></span></a>
@@ -153,7 +152,7 @@
     </div>
   </div>
 </footer>
-<script src="js/shop.js"></script>
-<script src="js/kasa.js"></script>
+<script src="js/shop.js?v=2"></script>
+<script src="js/kasa.js?v=2"></script>
 </body>
 </html>

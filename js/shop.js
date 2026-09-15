@@ -180,6 +180,16 @@ document.addEventListener('click', e => {
 });
 
 
+/* --- Przeniesienie zapisów ze starej nazwy sklepu (lumen_* -> tompar_*) --- */
+try {
+  [['lumen_motyw','tompar_motyw'],['lumen_koszyk','tompar_koszyk'],
+   ['lumen_ulubione','tompar_ulubione']].forEach(([stary, nowy]) => {
+    const v = localStorage.getItem(stary);
+    if (v !== null && localStorage.getItem(nowy) === null) localStorage.setItem(nowy, v);
+    if (v !== null) localStorage.removeItem(stary);
+  });
+} catch(e){}
+
 /* --- Motyw jasny / ciemny --- */
 const Motyw = {
   key: 'tompar_motyw',
