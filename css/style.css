@@ -30,29 +30,39 @@
 }
 
 /* --- MOTYW CIEMNY --- */
-[data-theme="dark"] .card .thumb img,[data-theme="dark"] .tile img{filter:brightness(.92)}
 [data-theme="dark"]{
-  --bg:#12100e;
-  --bg-soft:#1b1815;
-  --card:#211d19;
-  --line:#332c25;
-  --line-soft:#2a241e;
-  --text:#f2ece3;
-  --muted:#a79c8e;
-  --gold:#e0b64a;
-  --gold-soft:#f3d07f;
-  --gold-dim:#2a2317;
-  --on-gold:#1a1512;
-  --header-bg:rgba(18,16,14,.9);
-  --input-bg:#191512;
-  --thumb-1:#2a241e;
-  --thumb-2:#191512;
-  --shadow:0 2px 10px rgba(0,0,0,.35);
-  --shadow-lg:0 12px 30px rgba(0,0,0,.45);
-  --ok:#6fbf8b;
-  --err:#e2705f;
+  --bg:#0e0f12;
+  --bg-soft:#15161a;
+  --card:#1a1c21;
+  --line:#2c2f37;
+  --line-soft:#23252b;
+  --text:#f4f4f6;
+  --muted:#9ea3ad;
+  --gold:#f2c14e;
+  --gold-soft:#ffd776;
+  --gold-dim:#2b2415;
+  --on-gold:#1a1408;
+  --header-bg:rgba(14,15,18,.92);
+  --input-bg:#15171c;
+  --thumb-1:#20232a;
+  --thumb-2:#171920;
+  --shadow:0 2px 12px rgba(0,0,0,.5);
+  --shadow-lg:0 16px 40px rgba(0,0,0,.6);
+  --ok:#5ec98a;
+  --err:#ef7361;
   color-scheme:dark;
 }
+/* w ciemnym karty odcinają się od tła jaśniejszym obrysem i cieniem */
+[data-theme="dark"] .card,
+[data-theme="dark"] .panel,
+[data-theme="dark"] .summary{box-shadow:0 1px 0 rgba(255,255,255,.04) inset, var(--shadow)}
+[data-theme="dark"] .card:hover{border-color:#3d424e}
+[data-theme="dark"] .card .thumb img,
+[data-theme="dark"] .tile img{filter:brightness(.95)}
+[data-theme="dark"] .chip:hover{background:var(--bg-soft)}
+[data-theme="dark"] .btn.ghost{border-color:#3a3e48}
+[data-theme="dark"] .topbar,
+[data-theme="dark"] .tag{color:#191308}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -205,11 +215,11 @@ section{padding:64px 0}
 
 /* --- PASEK DARMOWEJ DOSTAWY --- */
 .freeship{background:var(--gold-dim);border:1px solid var(--gold);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
-.freeship.done{background:var(--gold-dim);border-color:var(--ok)}
+.freeship.gratis{background:color-mix(in srgb,var(--ok) 12%,transparent);border-color:var(--ok)}
 .fs-top{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.92rem;margin-bottom:10px}
 .fs-bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden}
 .fs-bar i{display:block;height:100%;background:var(--gold);border-radius:999px;transition:width .4s}
-.freeship.done .fs-bar i{background:var(--ok)}
+.freeship.gratis .fs-bar i{background:var(--ok)}
 .fs-link{display:inline-block;margin-top:10px;font-size:.86rem;font-weight:600;color:var(--gold)}
 .fs-link:hover{text-decoration:underline}
 
