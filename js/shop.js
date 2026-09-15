@@ -302,7 +302,7 @@ function inicjujPodpowiedzi(form){
     if (!wyniki.length){ lista.hidden = true; return; }
     lista.innerHTML = wyniki.map((w, i) => w.typ === 'kat'
       ? `<a class="sug sug-kat ${i === wybrany ? 'on' : ''}" href="sklep.html#${w.id}" data-i="${i}">
-           <span class="sug-ikona">📂</span><span class="sug-tekst">Kategoria: <strong>${w.nazwa}</strong></span></a>`
+           <span class="sug-ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg></span><span class="sug-tekst">Kategoria: <strong>${w.nazwa}</strong></span></a>`
       : `<a class="sug ${i === wybrany ? 'on' : ''}" href="sklep.html?q=${encodeURIComponent(w.p.nazwa)}" data-i="${i}">
            <img src="${foto(w.p)}" alt="" loading="lazy">
            <span class="sug-tekst">${w.p.nazwa}<small>${w.p.opis.slice(0, 48)}…</small></span>
