@@ -154,6 +154,64 @@ function renderProdukty(kat = 'all', sel = '#lista-produktow', fraza = ''){
        </div>`;
 }
 
+
+/* ===========================================================
+   Katalog: filtry kategorii wspolne dla strony glownej i sklepu
+   =========================================================== */
+function inicjujKatalog(opcje = {}){
+  const filtrySel = opcje.filtry || '#filtry';
+  const listaSel  = opcje.lista  || '#lista-produktow';
+  const box = qs(filtrySel);
+  if (!box) return;
+
+  const fraza = new URLSearchParams(location.search).get('q') || '';
+  if (fraza && opcje.naglowek && qs(opcje.naglowek))
+    qs(opcje.naglowek).textContent = `Wyniki wyszukiwania: „${fraza}”`;
+  if (fraza) qsa('[data-search] input').forEach(i => i.value = fraza);
+
+  box.innerHTML = KATEGORIE.map(k =>
+    `<button class="chip" data-kat="${k.id}">${k.nazwa}</button>`).join('');
+
+  function ustaw(kat, zapiszWAdresie = true){
+    if (!KATEGORIE.some(k => k.id === kat)) kat = 'all';
+    qsa(filtrySel + ' .chip').forEach(c =>
+      c.classList.toggle('active', c.dataset.kat === kat));
+    renderProdukty(kat, listaSel, fraza);
+    if (zapiszWAdresie)
+      history.replaceState(null, '', location.pathname + location.search + (kat === 'all' ? '' : '#' + kat));
+  }
+
+  box.addEventListener('click', e => {
+    const c = e.target.closest('.chip');
+    if (c) ustaw(c.dataset.kat);
+  });
+
+  // klikniecie kategorii w pasku nad trescia zmienia tylko adres,
+  // wiec sami reagujemy na zmiane kotwicy
+  const przewin = () => qs(opcje.przewinDo || listaSel)
+    ?.scrollIntoView({behavior:'smooth', block:'start'});
+
+  // linki kategorii na tej samej stronie (pasek nad trescia, kafelki)
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href*="#"]');
+    if (!a) return;
+    const [sciezka, kotwica] = a.getAttribute('href').split('#');
+    if (!kotwica || !KATEGORIE.some(k => k.id === kotwica)) return;
+    // link prowadzacy na inna podstrone zostawiamy przegladarce
+    if (sciezka && !location.pathname.endsWith(sciezka)) return;
+    e.preventDefault();
+    history.replaceState(null, '', location.pathname + location.search + '#' + kotwica);
+    ustaw(kotwica, false);
+    przewin();
+  });
+
+  // wejscie z innej podstrony albo przycisk wstecz
+  addEventListener('hashchange', () => { ustaw(location.hash.slice(1), false); przewin(); });
+
+  ustaw(location.hash.slice(1));
+  return ustaw;
+}
+
 /* --- Globalna obsługa „dodaj do koszyka” --- */
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-add]');
@@ -218,6 +276,63 @@ document.addEventListener('click', e => {
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
   if (!Motyw.zapisany()) Motyw.ustaw(e.matches ? 'dark' : 'light');
 });
+
+
+/* --- Podpowiedzi przy wyszukiwaniu --- */
+function inicjujPodpowiedzi(form){
+  const input = form.querySelector('input');
+  const lista = document.createElement('div');
+  lista.className = 'sugestie';
+  lista.hidden = true;
+  form.appendChild(lista);
+
+  let wyniki = [], wybrany = -1;
+
+  const szukaj = q => {
+    q = q.trim().toLowerCase();
+    if (q.length < 2) return [];
+    const kat = KATEGORIE.filter(k => k.id !== 'all' && k.nazwa.toLowerCase().includes(q))
+      .map(k => ({typ:'kat', id:k.id, nazwa:k.nazwa}));
+    const prod = PRODUKTY.filter(p => (p.nazwa + ' ' + p.opis).toLowerCase().includes(q))
+      .slice(0, 6).map(p => ({typ:'prod', p}));
+    return [...kat.slice(0, 2), ...prod];
+  };
+
+  const rysuj = () => {
+    if (!wyniki.length){ lista.hidden = true; return; }
+    lista.innerHTML = wyniki.map((w, i) => w.typ === 'kat'
+      ? `<a class="sug sug-kat ${i === wybrany ? 'on' : ''}" href="sklep.html#${w.id}" data-i="${i}">
+           <span class="sug-ikona">📂</span><span class="sug-tekst">Kategoria: <strong>${w.nazwa}</strong></span></a>`
+      : `<a class="sug ${i === wybrany ? 'on' : ''}" href="sklep.html?q=${encodeURIComponent(w.p.nazwa)}" data-i="${i}">
+           <img src="${foto(w.p)}" alt="" loading="lazy">
+           <span class="sug-tekst">${w.p.nazwa}<small>${w.p.opis.slice(0, 48)}…</small></span>
+           <span class="sug-cena">${zl(w.p.cena)}</span></a>`).join('');
+    lista.hidden = false;
+  };
+
+  input.addEventListener('input', () => { wyniki = szukaj(input.value); wybrany = -1; rysuj(); });
+  input.addEventListener('focus', () => { if (input.value.trim().length >= 2){ wyniki = szukaj(input.value); rysuj(); } });
+
+  input.addEventListener('keydown', e => {
+    if (lista.hidden || !wyniki.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      wybrany = (wybrany + (e.key === 'ArrowDown' ? 1 : -1) + wyniki.length) % wyniki.length;
+      rysuj();
+    } else if (e.key === 'Enter' && wybrany > -1){
+      e.preventDefault();
+      lista.querySelector(`[data-i="${wybrany}"]`).click();
+    } else if (e.key === 'Escape'){
+      lista.hidden = true; wybrany = -1;
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!form.contains(e.target)) lista.hidden = true;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => qsa('[data-search]').forEach(inicjujPodpowiedzi));
 
 /* --- Wyszukiwarka --- */
 document.addEventListener('submit', e => {

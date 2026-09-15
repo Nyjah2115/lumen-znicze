@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sklep — znicze, lampiony, wkłady | Tom-Par</title>
 <meta name="description" content="Pełna oferta: znicze klasyczne i szklane, lampiony, wkłady parafinowe i olejowe, znicze LED oraz komplety.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css?v=202609152109">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css?v=202609152116">
 <script>
   (function(){
     var m = null;
@@ -92,29 +92,9 @@
     </div>
   </div>
 </footer>
-<script src="js/shop.js?v=202609152109"></script>
+<script src="js/shop.js?v=202609152116"></script>
 <script>
-  const filtry = document.querySelector('#filtry');
-  filtry.innerHTML = KATEGORIE.map(k =>
-    `<button class="chip" data-kat="${k.id}">${k.nazwa}</button>`).join('');
-
-  const fraza = new URLSearchParams(location.search).get('q') || '';
-  if (fraza){
-    document.querySelectorAll('[data-search] input').forEach(i => i.value = fraza);
-    document.querySelector('#naglowek-sklep').textContent = `Wyniki wyszukiwania: „${fraza}”`;
-  }
-
-  function ustaw(kat){
-    document.querySelectorAll('#filtry .chip').forEach(c =>
-      c.classList.toggle('active', c.dataset.kat === kat));
-    renderProdukty(kat, '#lista-produktow', fraza);
-    history.replaceState(null, '', (kat === 'all' ? location.pathname : '#' + kat) + location.search);
-  }
-  filtry.addEventListener('click', e => {
-    const c = e.target.closest('.chip'); if (c) ustaw(c.dataset.kat);
-  });
-  const start = location.hash.slice(1);
-  ustaw(KATEGORIE.some(k => k.id === start) ? start : 'all');
+  inicjujKatalog({naglowek:'#naglowek-sklep', przewinDo:'#naglowek-sklep'});
 </script>
 </body>
 </html>
