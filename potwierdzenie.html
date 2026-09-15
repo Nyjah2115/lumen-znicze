@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zamówienie przyjęte | LUMEN</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+<script>
+  (function(){
+    var m = null;
+    try { m = localStorage.getItem('lumen_motyw'); } catch(e){}
+    if (!m) m = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = m;
+  })();
+</script>
+</head>
+<body>
+<div class="topbar">🚚 Darmowa dostawa przy zamówieniu od 200 zł — wysyłka w 24 h</div>
+<header class="site">
+  <div class="wrap head-main">
+    <a class="logo" href="index.html"><i>🕯️</i><span>LUMEN<small>znicze i lampiony</small></span></a>
+    <div class="head-contact">
+      <span>📞 <a href="tel:+48000000000">+48 000 000 000</a><br>✉️ <a href="mailto:sklep@lumen-znicze.pl">sklep@lumen-znicze.pl</a></span>
+    </div>
+    <form class="search" data-search role="search">
+      <input type="search" name="q" placeholder="Szukaj zniczy, wkładów, lampionów..." aria-label="Szukaj w sklepie">
+      <button type="submit" aria-label="Szukaj">🔍</button>
+    </form>
+    <div class="head-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Zmień motyw"><span class="ikona">🌙</span> <span class="etykieta">Ciemny</span></button>
+      <a class="icon-btn fav-btn" href="ulubione.html">♥ <span>Ulubione</span> <span class="badge" data-fav-count style="display:none">0</span></a>
+      <a class="icon-btn" href="koszyk.html">🛒 <span>Koszyk</span> <span class="badge" data-cart-count style="display:none">0</span></a>
+    </div>
+  </div>
+  <nav class="catbar">
+    <div class="wrap">
+      <a href="index.html">Start</a>
+      <a href="sklep.html">Wszystkie znicze</a>
+      <a href="sklep.html#znicze">Klasyczne</a>
+      <a href="sklep.html#szklane">Szklane</a>
+      <a href="sklep.html#lampiony">Lampiony</a>
+      <a href="sklep.html#wklady">Wkłady</a>
+      <a href="sklep.html#led">LED i solarne</a>
+      <a href="sklep.html#komplety">Komplety</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </div>
+  </nav>
+</header>
+<main><div class="wrap"><div class="done" id="done"></div></div></main>
+<footer class="site" id="kontakt">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="index.html">LUMEN<span>znicze i lampiony</span></a>
+        <p style="max-width:34ch;margin-top:14px">Rodzinna wytwórnia zniczy. Produkujemy i wysyłamy w całej Polsce od 2009 roku.</p>
+      </div>
+      <div><h4>Sklep</h4><ul>
+        <li><a href="sklep.html">Wszystkie produkty</a></li>
+        <li><a href="sklep.html#znicze">Znicze klasyczne</a></li>
+        <li><a href="sklep.html#lampiony">Lampiony</a></li>
+        <li><a href="sklep.html#led">LED i solarne</a></li>
+      </ul></div>
+      <div><h4>Informacje</h4><ul>
+        <li><a href="koszyk.html">Koszyk</a></li>
+        <li><a href="ulubione.html">Ulubione</a></li>
+        <li><a href="#">Zwroty i reklamacje</a></li>
+        <li><a href="#">Regulamin</a></li>
+        <li><a href="#">Polityka prywatności</a></li>
+        <li><a href="zrodla-zdjec.html">Źródła zdjęć</a></li>
+      </ul></div>
+      <div><h4>Kontakt</h4><ul>
+        <li>ul. Cmentarna 12<br>37-450 Stalowa Wola</li>
+        <li><a href="tel:+48000000000">+48 000 000 000</a></li>
+        <li><a href="mailto:sklep@lumen-znicze.pl">sklep@lumen-znicze.pl</a></li>
+        <li>pn.–pt. 8:00–18:00, sob. 9:00–14:00</li>
+      </ul></div>
+    </div>
+    <div class="copy">
+      <span>© 2026 LUMEN. Wszystkie prawa zastrzeżone.</span>
+      <span>Dane kontaktowe są przykładowe — do uzupełnienia.</span>
+    </div>
+  </div>
+</footer>
+<script src="js/shop.js"></script>
+<script>
+const z = JSON.parse(localStorage.getItem('lumen_zamowienie') || 'null');
+const box = document.querySelector('#done');
+
+if (!z){
+  box.innerHTML = `<h1>Brak zamówienia</h1>
+    <p class="muted">Nie znaleźliśmy danych zamówienia w tej przeglądarce.</p>
+    <a class="btn" href="sklep.html" style="margin-top:14px">Przejdź do sklepu</a>`;
+} else {
+  box.innerHTML = `
+    <div class="ok">✓</div>
+    <h1>Dziękujemy za zamówienie</h1>
+    <p class="muted">Numer zamówienia <strong style="color:var(--gold)">${z.numer}</strong>.
+       Potwierdzenie wysłaliśmy na ${z.klient.email}.</p>
+
+    <div class="recap">
+      <h3 style="margin-top:0">Co zamówiłeś</h3>
+      ${z.pozycje.map(p => `<div class="sum-line"><span>${p.nazwa} × ${p.ile}</span><strong>${zl(p.suma)}</strong></div>`).join('')}
+      <div class="sum-line"><span>${z.dostawa.nazwa}${z.dostawa.paczkomat ? ' — ' + z.dostawa.paczkomat : ''}</span>
+        <strong>${z.dostawa.cena ? zl(z.dostawa.cena) : 'gratis'}</strong></div>
+      <div class="sum-total"><span>Razem</span><span>${zl(z.razem)}</span></div>
+
+      <h3 style="margin:26px 0 8px">Dostawa</h3>
+      <p class="muted" style="margin:0">
+        ${z.klient.imie} ${z.klient.nazwisko}<br>
+        ${z.adres.ulica}<br>${z.adres.kod} ${z.adres.miasto}, ${z.adres.kraj}<br>
+        tel. ${z.klient.telefon}
+      </p>
+      ${z.firma ? `<p class="muted" style="margin:10px 0 0">Faktura: ${z.firma.nazwa}, NIP ${z.firma.nip}</p>` : ''}
+
+      <h3 style="margin:26px 0 8px">Płatność</h3>
+      <p class="muted" style="margin:0">${z.platnosc} — ${z.platnosc === 'Za pobraniem'
+        ? 'zapłacisz kurierowi przy odbiorze.'
+        : 'w wersji produkcyjnej nastąpiłoby tu przekierowanie do operatora płatności.'}</p>
+
+      ${z.uwagi ? `<h3 style="margin:26px 0 8px">Uwagi</h3><p class="muted" style="margin:0">${z.uwagi}</p>` : ''}
+      <p class="muted" style="font-size:.82rem;margin:22px 0 0">Zamówienie złożone ${z.data}.</p>
+    </div>
+
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn" href="sklep.html">Wróć do sklepu</a>
+      <button class="btn ghost" onclick="window.print()">Drukuj potwierdzenie</button>
+    </div>`;
+}
+</script>
+</body>
+</html>

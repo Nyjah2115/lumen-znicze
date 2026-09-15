@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zamówienie — dane, dostawa, płatność | LUMEN</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+<script>
+  (function(){
+    var m = null;
+    try { m = localStorage.getItem('lumen_motyw'); } catch(e){}
+    if (!m) m = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = m;
+  })();
+</script>
+</head>
+<body>
+<div class="topbar">🚚 Darmowa dostawa przy zamówieniu od 200 zł — wysyłka w 24 h</div>
+<header class="site">
+  <div class="wrap head-main">
+    <a class="logo" href="index.html"><i>🕯️</i><span>LUMEN<small>znicze i lampiony</small></span></a>
+    <div class="head-contact">
+      <span>📞 <a href="tel:+48000000000">+48 000 000 000</a><br>✉️ <a href="mailto:sklep@lumen-znicze.pl">sklep@lumen-znicze.pl</a></span>
+    </div>
+    <form class="search" data-search role="search">
+      <input type="search" name="q" placeholder="Szukaj zniczy, wkładów, lampionów..." aria-label="Szukaj w sklepie">
+      <button type="submit" aria-label="Szukaj">🔍</button>
+    </form>
+    <div class="head-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Zmień motyw"><span class="ikona">🌙</span> <span class="etykieta">Ciemny</span></button>
+      <a class="icon-btn fav-btn" href="ulubione.html">♥ <span>Ulubione</span> <span class="badge" data-fav-count style="display:none">0</span></a>
+      <a class="icon-btn" href="koszyk.html">🛒 <span>Koszyk</span> <span class="badge" data-cart-count style="display:none">0</span></a>
+    </div>
+  </div>
+  <nav class="catbar">
+    <div class="wrap">
+      <a href="index.html">Start</a>
+      <a href="sklep.html">Wszystkie znicze</a>
+      <a href="sklep.html#znicze">Klasyczne</a>
+      <a href="sklep.html#szklane">Szklane</a>
+      <a href="sklep.html#lampiony">Lampiony</a>
+      <a href="sklep.html#wklady">Wkłady</a>
+      <a href="sklep.html#led">LED i solarne</a>
+      <a href="sklep.html#komplety">Komplety</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </div>
+  </nav>
+</header>
+<main>
+<section style="padding-top:48px">
+  <div class="wrap">
+    <h1 style="font-size:clamp(1.9rem,3.6vw,2.6rem)">Składanie zamówienia</h1>
+    <p class="muted" style="margin-top:-8px">Bez zakładania konta. Wypełnienie zajmuje około minuty.</p>
+
+    <form class="checkout" id="form-kasa" novalidate>
+      <div>
+        <!-- 1. KONTAKT -->
+        <div class="panel">
+          <h2><span class="step-no">1</span> Dane kontaktowe</h2>
+          <div class="row2">
+            <div class="field"><label for="imie">Imię *</label><input id="imie" name="imie" autocomplete="given-name"><span class="err">Podaj imię.</span></div>
+            <div class="field"><label for="nazwisko">Nazwisko *</label><input id="nazwisko" name="nazwisko" autocomplete="family-name"><span class="err">Podaj nazwisko.</span></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="email">E-mail *</label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="jan.kowalski@example.com"><span class="err">Podaj poprawny adres e-mail.</span></div>
+            <div class="field"><label for="telefon">Telefon *</label><input id="telefon" name="telefon" type="tel" inputmode="tel" autocomplete="tel" placeholder="600 100 200"><span class="err">Podaj 9-cyfrowy numer telefonu.</span></div>
+          </div>
+          <p class="muted" style="font-size:.84rem;margin:0">Na e-mail wyślemy potwierdzenie, na telefon — informację od kuriera.</p>
+        </div>
+
+        <!-- 2. ADRES -->
+        <div class="panel">
+          <h2><span class="step-no">2</span> Adres dostawy</h2>
+          <div class="field"><label for="ulica">Ulica i numer *</label><input id="ulica" name="ulica" autocomplete="street-address" placeholder="ul. Kwiatowa 14/3"><span class="err">Podaj ulicę i numer.</span></div>
+          <div class="row3">
+            <div class="field"><label for="kod">Kod pocztowy *</label><input id="kod" name="kod" inputmode="numeric" autocomplete="postal-code" placeholder="00-000" maxlength="6"><span class="err">Format: 00-000.</span></div>
+            <div class="field"><label for="miasto">Miejscowość *</label><input id="miasto" name="miasto" autocomplete="address-level2"><span class="err">Podaj miejscowość.</span></div>
+            <div class="field"><label for="kraj">Kraj</label>
+              <select id="kraj" name="kraj"><option>Polska</option><option>Niemcy</option><option>Czechy</option><option>Wielka Brytania</option></select></div>
+          </div>
+          <label class="check"><input type="checkbox" id="faktura" name="faktura"> Chcę fakturę na firmę</label>
+          <div id="box-faktura" hidden>
+            <div class="row2">
+              <div class="field"><label for="firma">Nazwa firmy *</label><input id="firma" name="firma"><span class="err">Podaj nazwę firmy.</span></div>
+              <div class="field"><label for="nip">NIP *</label><input id="nip" name="nip" inputmode="numeric" placeholder="1234567890" maxlength="13"><span class="err">NIP musi mieć 10 cyfr.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. DOSTAWA -->
+        <div class="panel">
+          <h2><span class="step-no">3</span> Sposób dostawy</h2>
+          <div id="opcje-dostawy"></div>
+          <div class="field" id="box-paczkomat" hidden>
+            <label for="paczkomat">Kod paczkomatu *</label>
+            <input id="paczkomat" name="paczkomat" placeholder="np. STW01M" maxlength="12">
+            <span class="err">Podaj kod wybranego paczkomatu.</span>
+          </div>
+        </div>
+
+        <!-- 4. PŁATNOŚĆ -->
+        <div class="panel">
+          <h2><span class="step-no">4</span> Sposób płatności</h2>
+          <div id="opcje-platnosci"></div>
+          <div class="field" style="margin-top:8px">
+            <label for="uwagi">Uwagi do zamówienia (opcjonalnie)</label>
+            <textarea id="uwagi" name="uwagi" rows="3" placeholder="np. proszę dzwonić przed dostawą"></textarea>
+          </div>
+          <label class="check" id="check-regulamin"><input type="checkbox" id="regulamin"> Akceptuję <a href="#" style="color:var(--gold)">regulamin</a> i <a href="#" style="color:var(--gold)">politykę prywatności</a>. *</label>
+          <label class="check"><input type="checkbox" id="newsletter"> Chcę dostawać informacje o promocjach sezonowych.</label>
+        </div>
+      </div>
+
+      <aside>
+        <div class="summary" id="podsumowanie"></div>
+      </aside>
+    </form>
+  </div>
+</section>
+</main>
+<footer class="site" id="kontakt">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="index.html">LUMEN<span>znicze i lampiony</span></a>
+        <p style="max-width:34ch;margin-top:14px">Rodzinna wytwórnia zniczy. Produkujemy i wysyłamy w całej Polsce od 2009 roku.</p>
+      </div>
+      <div><h4>Sklep</h4><ul>
+        <li><a href="sklep.html">Wszystkie produkty</a></li>
+        <li><a href="sklep.html#znicze">Znicze klasyczne</a></li>
+        <li><a href="sklep.html#lampiony">Lampiony</a></li>
+        <li><a href="sklep.html#led">LED i solarne</a></li>
+      </ul></div>
+      <div><h4>Informacje</h4><ul>
+        <li><a href="koszyk.html">Koszyk</a></li>
+        <li><a href="ulubione.html">Ulubione</a></li>
+        <li><a href="#">Zwroty i reklamacje</a></li>
+        <li><a href="#">Regulamin</a></li>
+        <li><a href="#">Polityka prywatności</a></li>
+        <li><a href="zrodla-zdjec.html">Źródła zdjęć</a></li>
+      </ul></div>
+      <div><h4>Kontakt</h4><ul>
+        <li>ul. Cmentarna 12<br>37-450 Stalowa Wola</li>
+        <li><a href="tel:+48000000000">+48 000 000 000</a></li>
+        <li><a href="mailto:sklep@lumen-znicze.pl">sklep@lumen-znicze.pl</a></li>
+        <li>pn.–pt. 8:00–18:00, sob. 9:00–14:00</li>
+      </ul></div>
+    </div>
+    <div class="copy">
+      <span>© 2026 LUMEN. Wszystkie prawa zastrzeżone.</span>
+      <span>Dane kontaktowe są przykładowe — do uzupełnienia.</span>
+    </div>
+  </div>
+</footer>
+<script src="js/shop.js"></script>
+<script src="js/kasa.js"></script>
+</body>
+</html>
