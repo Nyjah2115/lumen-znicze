@@ -199,8 +199,10 @@ const Motyw = {
   ustaw(m){
     document.documentElement.dataset.theme = m;
     try { localStorage.setItem(this.key, m); } catch(e){}
+    const SLONCE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>';
+    const KSIEZYC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z"/></svg>';
     qsa('[data-theme-toggle]').forEach(b => {
-      b.querySelector('.ikona').textContent = m === 'dark' ? '☀️' : '🌙';
+      b.querySelector('.ikona').innerHTML = m === 'dark' ? SLONCE : KSIEZYC;
       b.querySelector('.etykieta').textContent = m === 'dark' ? 'Jasny' : 'Ciemny';
       b.setAttribute('aria-label', m === 'dark' ? 'Włącz tryb jasny' : 'Włącz tryb ciemny');
     });

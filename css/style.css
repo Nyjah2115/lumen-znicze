@@ -81,21 +81,29 @@ h2{font-size:clamp(1.35rem,2.4vw,1.85rem)}
 
 /* --- NAGŁÓWEK --- */
 header.site{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.head-main{display:flex;align-items:center;gap:22px;padding:14px 0}
-.logo{display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:800;letter-spacing:-.02em}
-.logo i{width:32px;height:32px;border-radius:8px;background:var(--gold);color:var(--on-gold);display:grid;place-items:center;font-style:normal;font-size:1rem}
-.logo small{display:block;font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
-.head-contact{display:flex;gap:20px;font-size:.84rem;color:var(--muted);line-height:1.35}
-.head-contact a:hover{color:var(--gold)}
-.search{flex:1;max-width:420px;position:relative}
-.search input{width:100%;background:var(--input-bg);border:1px solid var(--line);border-radius:999px;padding:10px 42px 10px 18px;font:inherit;color:var(--text)}
-.search input:focus{outline:none;border-color:var(--gold)}
-.search button{position:absolute;right:4px;top:4px;width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:var(--muted);cursor:pointer;font-size:.95rem}
-.search button:hover{color:var(--gold)}
-.head-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
-.icon-btn{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:transparent;color:var(--text);padding:9px 14px;border-radius:999px;font:inherit;font-size:.86rem;cursor:pointer;transition:.2s;white-space:nowrap}
-.icon-btn:hover{border-color:var(--gold);color:var(--gold)}
-.badge{background:var(--gold);color:var(--on-gold);font-weight:700;font-size:.72rem;border-radius:999px;min-width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+.head-main{display:flex;align-items:center;gap:28px;padding:12px 0}
+.logo{display:flex;align-items:center;gap:10px;font-size:1.22rem;font-weight:800;letter-spacing:-.02em;flex:none}
+.logo i{width:30px;height:30px;border-radius:8px;background:var(--gold);color:var(--on-gold);display:grid;place-items:center;font-style:normal;font-size:.95rem}
+.logo small{display:block;font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:-3px}
+
+.search{flex:1;max-width:520px;position:relative;display:flex;align-items:center}
+.search-ico{position:absolute;left:15px;width:17px;height:17px;color:var(--muted);pointer-events:none}
+.search input{width:100%;background:var(--input-bg);border:1px solid var(--line);border-radius:999px;
+  padding:10px 16px 10px 42px;font:inherit;font-size:.92rem;color:var(--text);transition:.2s}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-dim)}
+.search input:focus~.search-ico{color:var(--gold)}
+.search-go{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.head-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
+.icon-btn{display:flex;align-items:center;gap:7px;border:1px solid transparent;background:transparent;color:var(--text);
+  padding:8px 13px;border-radius:999px;font:inherit;font-size:.86rem;cursor:pointer;transition:.2s;white-space:nowrap}
+.icon-btn:hover{background:var(--bg-soft);color:var(--gold)}
+.icon-btn svg{width:19px;height:19px;flex:none}
+.icon-btn .ikona{display:flex}
+.icon-btn .ikona svg{width:18px;height:18px}
+.badge{background:var(--gold);color:var(--on-gold);font-weight:700;font-size:.72rem;border-radius:999px;
+  min-width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
 .fav-btn .badge{background:var(--err);color:#fff}
 .burger{display:none}
 
@@ -253,9 +261,6 @@ footer.site ul{list-style:none;padding:0;margin:0;display:grid;gap:7px}
 .copy{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.81rem}
 
 /* --- RESPONSYWNOŚĆ --- */
-@media(max-width:1080px){
-  .head-contact{display:none}
-}
 @media(max-width:980px){
   .checkout{grid-template-columns:1fr}
   .summary{position:static}
@@ -264,10 +269,11 @@ footer.site ul{list-style:none;padding:0;margin:0;display:grid;gap:7px}
   footer.site .cols{grid-template-columns:1fr 1fr}
 }
 @media(max-width:700px){
-  .head-main{flex-wrap:wrap;gap:12px}
+  .head-main{flex-wrap:wrap;gap:10px 8px}
   .search{order:5;max-width:none;flex-basis:100%}
   .icon-btn span:not(.badge):not(.ikona){display:none}
-  .icon-btn{padding:9px 12px}
+  .icon-btn{padding:8px 10px;gap:5px}
+  .logo{font-size:1.1rem}
   .cols-3,.cols-4{grid-template-columns:1fr}
   .row2,.row3{grid-template-columns:1fr}
   .cart-row{grid-template-columns:66px 1fr;row-gap:10px}
