@@ -1,5 +1,5 @@
 /* ============================================================
-   LUMEN — sklep ze zniczami. Cała logika po stronie klienta.
+   Tom-Par — sklep ze zniczami. Cała logika po stronie klienta.
    Koszyk i zamówienie trzymane w localStorage.
    ============================================================ */
 
@@ -64,7 +64,7 @@ const foto = p => `img/${p.id}.jpg`;
 
 /* --- Koszyk --- */
 const Cart = {
-  key: 'lumen_koszyk',
+  key: 'tompar_koszyk',
   get(){ try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch(e){ return []; } },
   set(items){ localStorage.setItem(this.key, JSON.stringify(items)); odswiezLicznik(); },
   add(id, ile = 1){
@@ -88,7 +88,7 @@ const Cart = {
 
 /* --- Ulubione --- */
 const Fav = {
-  key: 'lumen_ulubione',
+  key: 'tompar_ulubione',
   get(){ try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch(e){ return []; } },
   set(ids){ localStorage.setItem(this.key, JSON.stringify(ids)); odswiezLicznik(); },
   has(id){ return this.get().includes(id); },
@@ -182,7 +182,7 @@ document.addEventListener('click', e => {
 
 /* --- Motyw jasny / ciemny --- */
 const Motyw = {
-  key: 'lumen_motyw',
+  key: 'tompar_motyw',
   zapisany(){ try { return localStorage.getItem(this.key); } catch(e){ return null; } },
   systemowy(){ return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; },
   aktualny(){ return document.documentElement.dataset.theme || 'light'; },

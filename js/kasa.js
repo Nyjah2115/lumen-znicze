@@ -145,7 +145,7 @@ form?.addEventListener('submit', e => {
 
   const sub = Cart.subtotal();
   const zamowienie = {
-    numer: 'LM-' + new Date().getFullYear() + '-' + String(Date.now()).slice(-6),
+    numer: 'TP-' + new Date().getFullYear() + '-' + String(Date.now()).slice(-6),
     data: new Date().toLocaleString('pl-PL'),
     klient: {
       imie: qs('#imie').value.trim(),
@@ -176,7 +176,7 @@ form?.addEventListener('submit', e => {
     razem: sub + kosztDostawy()
   };
 
-  localStorage.setItem('lumen_zamowienie', JSON.stringify(zamowienie));
+  localStorage.setItem('tompar_zamowienie', JSON.stringify(zamowienie));
   Cart.clear();
   location.href = 'potwierdzenie.html';
 });
