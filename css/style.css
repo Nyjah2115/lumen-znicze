@@ -25,7 +25,7 @@
   --err:#c8402c;
   --radius:12px;
   --max:1220px;
-  --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","Inter","Segoe UI Variable","Segoe UI",Roboto,Arial,sans-serif;
   color-scheme:light;
 }
 
@@ -68,12 +68,13 @@
 html{scroll-behavior:smooth}
 /* przyklejony naglowek nie moze zaslaniac celu przewijania */
 section[id],[id^="naglowek"]{scroll-margin-top:124px}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.55;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-h1,h2,h3{font-weight:700;line-height:1.25;margin:0 0 .5em}
-h1{font-size:clamp(1.8rem,3.6vw,2.6rem)}
-h2{font-size:clamp(1.35rem,2.4vw,1.85rem)}
+h1,h2,h3{font-weight:600;line-height:1.14;margin:0 0 .5em;letter-spacing:-.022em}
+h1{letter-spacing:-.032em}
+h1{font-size:clamp(1.9rem,3.8vw,2.9rem)}
+h2{font-size:clamp(1.4rem,2.5vw,1.95rem)}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 .muted{color:var(--muted)}
 .center{text-align:center}
@@ -92,7 +93,7 @@ h2{font-size:clamp(1.35rem,2.4vw,1.85rem)}
 /* --- NAGŁÓWEK --- */
 header.site{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .head-main{display:flex;align-items:center;gap:28px;padding:12px 0}
-.logo{display:flex;align-items:center;gap:10px;font-size:1.22rem;font-weight:800;letter-spacing:-.02em;flex:none}
+.logo{display:flex;align-items:center;gap:10px;font-size:1.24rem;font-weight:600;letter-spacing:-.03em;flex:none}
 .logo small{display:block;font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:-3px}
 
 .search{flex:1;max-width:520px;position:relative;display:flex;align-items:center}
@@ -154,7 +155,7 @@ header.site{position:sticky;top:0;z-index:50;background:var(--header-bg);backdro
 .trust b{display:block;color:#fff;font-size:.95rem}
 
 /* --- PRZYCISKI --- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-weight:600;padding:12px 24px;border-radius:999px;transition:.2s;background:var(--gold);color:var(--on-gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:inherit;font-weight:500;letter-spacing:-.008em;padding:12px 24px;border-radius:999px;transition:.2s;background:var(--gold);color:var(--on-gold)}
 .btn:hover{background:var(--gold-soft)}
 .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
 .btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
@@ -194,10 +195,10 @@ section{padding:64px 0}
   letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:4px;box-shadow:var(--shadow)}
 .tag-promo{background:var(--err);color:#fff;letter-spacing:0;font-size:.78rem}
 .card .body{padding:12px 2px 4px;display:flex;flex-direction:column;flex:1;gap:3px}
-.card h3{font-size:.95rem;margin:0;line-height:1.35;font-weight:700}
+.card h3{font-size:.95rem;margin:0;line-height:1.35;font-weight:600;letter-spacing:-.012em}
 .card .desc{font-size:.84rem;color:var(--muted);flex:1;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.price{font-size:1.05rem;font-weight:800;margin-top:6px;display:flex;align-items:baseline;gap:8px}
+.price{font-size:1.05rem;font-weight:600;letter-spacing:-.02em;margin-top:6px;display:flex;align-items:baseline;gap:8px}
 .price small{color:var(--muted);font-weight:400;font-size:.74rem}
 .price s{color:var(--muted);font-weight:500;font-size:.85rem}
 .price-promo{color:var(--err)}
@@ -262,7 +263,7 @@ section{padding:64px 0}
 .summary{position:sticky;top:110px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
 .sum-line{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;padding:6px 0;color:var(--muted)}
 .sum-line strong{color:var(--text);font-weight:600}
-.sum-total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);margin-top:12px;padding-top:14px;font-size:1.3rem;font-weight:800}
+.sum-total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);margin-top:12px;padding-top:14px;font-size:1.32rem;font-weight:600;letter-spacing:-.024em}
 .mini-item{display:flex;gap:11px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-soft)}
 .mini-item .mt{width:44px;height:44px;border-radius:7px;background:var(--thumb-1);overflow:hidden;flex:none}
 .mini-item .mt img{width:100%;height:100%;object-fit:cover;border-radius:7px}
