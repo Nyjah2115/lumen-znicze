@@ -1,5 +1,5 @@
 /* ============================================================
-   Tom-Par — sklep ze zniczami. Cała logika po stronie klienta.
+   Znicze Radek — sklep ze zniczami. Cała logika po stronie klienta.
    Koszyk i zamówienie trzymane w localStorage.
    ============================================================ */
 
@@ -64,7 +64,7 @@ const foto = p => `img/${p.id}.jpg`;
 
 /* --- Koszyk --- */
 const Cart = {
-  key: 'tompar_koszyk',
+  key: 'zradek_koszyk',
   get(){ try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch(e){ return []; } },
   set(items){ localStorage.setItem(this.key, JSON.stringify(items)); odswiezLicznik(); },
   add(id, ile = 1){
@@ -88,7 +88,7 @@ const Cart = {
 
 /* --- Ulubione --- */
 const Fav = {
-  key: 'tompar_ulubione',
+  key: 'zradek_ulubione',
   get(){ try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch(e){ return []; } },
   set(ids){ localStorage.setItem(this.key, JSON.stringify(ids)); odswiezLicznik(); },
   has(id){ return this.get().includes(id); },
@@ -238,10 +238,12 @@ document.addEventListener('click', e => {
 });
 
 
-/* --- Przeniesienie zapisów ze starej nazwy sklepu (lumen_* -> tompar_*) --- */
+/* --- Przeniesienie zapisów ze starych nazw sklepu (lumen_*, tompar_* -> zradek_*) --- */
 try {
-  [['lumen_motyw','tompar_motyw'],['lumen_koszyk','tompar_koszyk'],
-   ['lumen_ulubione','tompar_ulubione']].forEach(([stary, nowy]) => {
+  [['lumen_motyw','zradek_motyw'],['lumen_koszyk','zradek_koszyk'],
+   ['lumen_ulubione','zradek_ulubione'],
+   ['tompar_motyw','zradek_motyw'],['tompar_koszyk','zradek_koszyk'],
+   ['tompar_ulubione','zradek_ulubione']].forEach(([stary, nowy]) => {
     const v = localStorage.getItem(stary);
     if (v !== null && localStorage.getItem(nowy) === null) localStorage.setItem(nowy, v);
     if (v !== null) localStorage.removeItem(stary);
@@ -250,7 +252,7 @@ try {
 
 /* --- Motyw jasny / ciemny --- */
 const Motyw = {
-  key: 'tompar_motyw',
+  key: 'zradek_motyw',
   zapisany(){ try { return localStorage.getItem(this.key); } catch(e){ return null; } },
   systemowy(){ return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; },
   aktualny(){ return document.documentElement.dataset.theme || 'light'; },
