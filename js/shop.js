@@ -16,16 +16,16 @@ const ART = {
 /* --- Katalog --- */
 const PRODUKTY = [
   {id:'kl-01', nazwa:'Znicz klasyczny „Pamięć”', kat:'znicze', art:'klasyk', cena:14.90, opis:'Czerwony klosz z wkładem parafinowym. Czas palenia ok. 3 dni.', tag:'Bestseller'},
-  {id:'kl-02', nazwa:'Znicz klasyczny bordo XL', kat:'znicze', art:'klasyk', cena:24.90, opis:'Powiększona wersja, wkład 60 h. Wysokość 34 cm.', tag:''},
+  {id:'kl-02', stara:32.90, nazwa:'Znicz klasyczny bordo XL', kat:'znicze', art:'klasyk', cena:24.90, opis:'Powiększona wersja, wkład 60 h. Wysokość 34 cm.', tag:''},
   {id:'sz-01', nazwa:'Znicz szklany „Kryształ”', kat:'szklane', art:'szklo', cena:39.00, opis:'Grube szkło mrożone, mosiężna pokrywa. Odporny na wiatr i deszcz.', tag:'Nowość'},
-  {id:'sz-02', nazwa:'Znicz szklany „Rosa” mały', kat:'szklane', art:'szklo', cena:27.50, opis:'Niski szklany znicz na pomniki dziecięce i nagrobki płaskie.', tag:''},
+  {id:'sz-02', stara:34.00, nazwa:'Znicz szklany „Rosa” mały', kat:'szklane', art:'szklo', cena:27.50, opis:'Niski szklany znicz na pomniki dziecięce i nagrobki płaskie.', tag:''},
   {id:'lm-01', nazwa:'Lampion mosiężny „Memoria”', kat:'lampiony', art:'lampion', cena:89.00, opis:'Metalowy lampion z przeszkleniem, na wkłady 60 h. Wysokość 42 cm.', tag:'Premium'},
-  {id:'lm-02', nazwa:'Lampion granitowy „Skała”', kat:'lampiony', art:'lampion', cena:129.00, opis:'Ciężka podstawa z granitu, szklany klosz. Nie przewróci się.', tag:''},
+  {id:'lm-02', stara:159.00, nazwa:'Lampion granitowy „Skała”', kat:'lampiony', art:'lampion', cena:129.00, opis:'Ciężka podstawa z granitu, szklany klosz. Nie przewróci się.', tag:''},
   {id:'wk-01', nazwa:'Wkład parafinowy 30 h (6 szt.)', kat:'wklady', art:'wklad', cena:22.00, opis:'Komplet sześciu wkładów do zniczy standardowych.', tag:''},
-  {id:'wk-02', nazwa:'Wkład olejowy 60 h (4 szt.)', kat:'wklady', art:'wklad', cena:34.00, opis:'Dłuższe palenie, mniej dymu. Pasuje do lampionów.', tag:''},
+  {id:'wk-02', stara:42.00, nazwa:'Wkład olejowy 60 h (4 szt.)', kat:'wklady', art:'wklad', cena:34.00, opis:'Dłuższe palenie, mniej dymu. Pasuje do lampionów.', tag:''},
   {id:'le-01', nazwa:'Znicz LED „Wieczny płomień”', kat:'led', art:'led', cena:49.00, opis:'Migoczący płomień LED, baterie w zestawie, do 120 dni świecenia.', tag:'Eko'},
-  {id:'le-02', nazwa:'Znicz LED solarny', kat:'led', art:'led', cena:69.00, opis:'Ładuje się w dzień, świeci po zmroku. Bez wymiany baterii.', tag:''},
-  {id:'kp-01', nazwa:'Komplet „Wszystkich Świętych” (5 szt.)', kat:'komplety', art:'komplet', cena:99.00, opis:'Pięć zniczy w stonowanych barwach — gotowy zestaw na 1 listopada.', tag:'Pakiet'},
+  {id:'le-02', stara:89.00, nazwa:'Znicz LED solarny', kat:'led', art:'led', cena:69.00, opis:'Ładuje się w dzień, świeci po zmroku. Bez wymiany baterii.', tag:''},
+  {id:'kp-01', stara:124.00, nazwa:'Komplet „Wszystkich Świętych” (5 szt.)', kat:'komplety', art:'komplet', cena:99.00, opis:'Pięć zniczy w stonowanych barwach — gotowy zestaw na 1 listopada.', tag:'Pakiet'},
   {id:'kp-02', nazwa:'Komplet rodzinny (10 szt.)', kat:'komplety', art:'komplet', cena:179.00, opis:'Dziesięć zniczy mieszanych: klasyczne, szklane i wkłady.', tag:''}
 ];
 
@@ -121,29 +121,37 @@ function toast(txt){
 
 /* --- Render kart produktów --- */
 function kartaHTML(p){
+  const rabat = p.stara ? Math.round((1 - p.cena / p.stara) * 100) : 0;
   return `<article class="card">
     <div class="thumb">
       <img src="${foto(p)}" alt="${p.nazwa}" loading="lazy">
-      ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
+      ${rabat ? `<span class="tag tag-promo">−${rabat}%</span>` : p.tag ? `<span class="tag">${p.tag}</span>` : ''}
       <button class="fav ${Fav.has(p.id) ? 'on' : ''}" data-fav="${p.id}"
               aria-label="Dodaj do ulubionych" aria-pressed="${Fav.has(p.id)}">♥</button>
+      <button class="card-do-koszyka" data-add="${p.id}">Dodaj do koszyka</button>
     </div>
     <div class="body">
       <h3>${p.nazwa}</h3>
       <p class="desc">${p.opis}</p>
-      <div class="price">${zl(p.cena)} <small>/ szt.</small></div>
-      <button class="btn block" style="margin-top:14px" data-add="${p.id}">Dodaj do koszyka</button>
+      <div class="price ${rabat ? 'price-promo' : ''}">
+        ${zl(p.cena)}
+        ${p.stara ? `<s>${zl(p.stara)}</s>` : '<small>/ szt.</small>'}
+      </div>
     </div>
   </article>`;
 }
 
-function renderProdukty(kat = 'all', sel = '#lista-produktow', fraza = ''){
+function renderProdukty(kat = 'all', sel = '#lista-produktow', fraza = '', sort = 'polecane'){
   const box = qs(sel);
-  if (!box) return;
+  if (!box) return 0;
   const q = fraza.trim().toLowerCase();
   const lista = PRODUKTY
     .filter(p => kat === 'all' || p.kat === kat)
     .filter(p => !q || (p.nazwa + ' ' + p.opis).toLowerCase().includes(q));
+
+  if (sort === 'tanie')   lista.sort((a, b) => a.cena - b.cena);
+  if (sort === 'drogie')  lista.sort((a, b) => b.cena - a.cena);
+  if (sort === 'promocje') lista.sort((a, b) => (b.stara ? 1 : 0) - (a.stara ? 1 : 0));
 
   box.innerHTML = lista.length
     ? lista.map(kartaHTML).join('')
@@ -152,11 +160,12 @@ function renderProdukty(kat = 'all', sel = '#lista-produktow', fraza = ''){
          <h3 style="margin-top:10px">Brak wyników</h3>
          <p>Nie znaleźliśmy zniczy pasujących do zapytania.</p>
        </div>`;
+  return lista.length;
 }
 
-
 /* ===========================================================
-   Katalog: filtry kategorii wspolne dla strony glownej i sklepu
+   Katalog: filtry kategorii, sortowanie i licznik wynikow
+   wspolne dla strony glownej i sklepu
    =========================================================== */
 function inicjujKatalog(opcje = {}){
   const filtrySel = opcje.filtry || '#filtry';
@@ -164,6 +173,8 @@ function inicjujKatalog(opcje = {}){
   const box = qs(filtrySel);
   if (!box) return;
 
+  let aktualnaKat = 'all';
+  let sort = 'polecane';
   const fraza = new URLSearchParams(location.search).get('q') || '';
   if (fraza && opcje.naglowek && qs(opcje.naglowek))
     qs(opcje.naglowek).textContent = `Wyniki wyszukiwania: „${fraza}”`;
@@ -172,11 +183,28 @@ function inicjujKatalog(opcje = {}){
   box.innerHTML = KATEGORIE.map(k =>
     `<button class="chip" data-kat="${k.id}">${k.nazwa}</button>`).join('');
 
+  // pasek z liczba wynikow i sortowaniem, nad siatka produktow
+  const pasek = document.createElement('div');
+  pasek.className = 'sortbar';
+  pasek.innerHTML = `<span class="sort-ile"></span>
+    <label class="sort-wybor">Sortuj:
+      <select id="sortowanie">
+        <option value="polecane">polecane</option>
+        <option value="tanie">cena: od najniższej</option>
+        <option value="drogie">cena: od najwyższej</option>
+        <option value="promocje">najpierw promocje</option>
+      </select>
+    </label>`;
+  qs(listaSel).before(pasek);
+
   function ustaw(kat, zapiszWAdresie = true){
     if (!KATEGORIE.some(k => k.id === kat)) kat = 'all';
+    aktualnaKat = kat;
     qsa(filtrySel + ' .chip').forEach(c =>
       c.classList.toggle('active', c.dataset.kat === kat));
-    renderProdukty(kat, listaSel, fraza);
+    const ile = renderProdukty(kat, listaSel, fraza, sort);
+    pasek.querySelector('.sort-ile').textContent =
+      ile === 1 ? '1 produkt' : (ile > 1 && ile < 5 ? ile + ' produkty' : ile + ' produktów');
     if (zapiszWAdresie)
       history.replaceState(null, '', location.pathname + location.search + (kat === 'all' ? '' : '#' + kat));
   }
@@ -186,8 +214,11 @@ function inicjujKatalog(opcje = {}){
     if (c) ustaw(c.dataset.kat);
   });
 
-  // klikniecie kategorii w pasku nad trescia zmienia tylko adres,
-  // wiec sami reagujemy na zmiane kotwicy
+  pasek.querySelector('#sortowanie').addEventListener('change', e => {
+    sort = e.target.value;
+    ustaw(aktualnaKat, false);
+  });
+
   const przewin = () => qs(opcje.przewinDo || listaSel)
     ?.scrollIntoView({behavior:'smooth', block:'start'});
 
@@ -197,7 +228,6 @@ function inicjujKatalog(opcje = {}){
     if (!a) return;
     const [sciezka, kotwica] = a.getAttribute('href').split('#');
     if (!kotwica || !KATEGORIE.some(k => k.id === kotwica)) return;
-    // link prowadzacy na inna podstrone zostawiamy przegladarce
     if (sciezka && !location.pathname.endsWith(sciezka)) return;
     e.preventDefault();
     history.replaceState(null, '', location.pathname + location.search + '#' + kotwica);
